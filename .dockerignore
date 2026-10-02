@@ -1,0 +1,11 @@
+node_modules
+dist
+out
+.git
+.vscode
+coverage
+*.pdf
+*.aux
+*.log
+.env
+ 
