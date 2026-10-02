@@ -1,0 +1,8 @@
+# Compiled output
+dist/
+# Custom environment stufff
+.env
+# npm
+node_modules/
+# coverage result
+.nyc_output

@@ -1,0 +1,6 @@
+{
+  "extension": ["ts"],
+  "reporter": "spec",
+  "spec": ["test/**/*.spec.ts"],
+  "require": ["chai/register-expect.js", "ts-node/register"]
+}
