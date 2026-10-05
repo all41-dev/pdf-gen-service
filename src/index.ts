@@ -1,6 +1,7 @@
 import { generatePdfFromLatex } from './generatePdfFromLatex';
-
+import { startServer } from './server';
 async function main() {
+  startServer();
   const latexTemplate = String.raw`\documentclass[11pt,a4paper]{article}
 \usepackage{fontspec}      % XeLaTeX font handling, supports Unicode directly
 \usepackage[margin=2cm]{geometry}
@@ -38,7 +39,7 @@ Special characters must be escaped: 50\% discount, R\&D, price \$20, file\_name.
 \end{tabular}
 
 \end{document}`;
-  await generatePdfFromLatex(latexTemplate, 'result', [
+  await generatePdfFromLatex(latexTemplate, (2323).toString(), [
     {
       name: 'testimage',
       source:

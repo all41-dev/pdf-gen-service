@@ -8,30 +8,31 @@ const execAsync = promisify(exec);
 
 type ImageSource = string | { url: string }; // base64 string, or a URL to download
 
-interface Image {
+export interface Image {
   name: string;
   source: ImageSource;
 }
 
 export async function generatePdfFromLatex(
   latexTemplate: string,
-  filePath: string,
+  uuid: string,
   images: Image[] = [],
 ) {
-  const tmpDir = generateTmpDir();
+  const tmpDir = `${generateTmpDir()}/${uuid}`;
   fs.ensureDirSync(tmpDir);
-
   if (images.length > 0) {
     writeImagesToDirectory(images, tmpDir);
   }
-  fs.writeFileSync(`${tmpDir}/${filePath}.tex`, latexTemplate);
+  const filepath = path.join(tmpDir, uuid);
 
-  const cmd = `xelatex -halt-on-error ${filePath}.tex`;
+  fs.writeFileSync(`${filepath}.tex`, latexTemplate);
+  console.log('filepath', filepath);
+  const cmd = `xelatex -halt-on-error ${filepath}.tex`;
   const { stderr } = await execAsync(cmd, { cwd: tmpDir });
   if (stderr) {
     throw new Error(`Error compiling LaTeX to PDF: ${stderr}`);
   }
-  const pdfBuffer = fs.readFileSync(`${tmpDir}/${filePath}.pdf`);
+  const pdfBuffer = fs.readFileSync(`${filepath}.pdf`);
   return pdfBuffer;
 }
 
