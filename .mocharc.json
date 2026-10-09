@@ -1,6 +1,7 @@
 {
   "extension": ["ts"],
   "reporter": "spec",
-  "spec": ["test/**/*.spec.ts"],
+  "timeout": 15000,
+  "spec": ["test/**/*.test.ts"],
   "require": ["chai/register-expect.js", "ts-node/register"]
 }

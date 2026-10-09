@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "types": ["node"],
+    "types": ["node", "mocha"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "target": "ES2024",
