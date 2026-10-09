@@ -1,6 +1,6 @@
 import amqp, { type Channel, type ConsumeMessage } from 'amqplib';
 import { randomUUID } from 'node:crypto';
-import type { PdfData } from '../generatePdfFromLatex';
+import type { PdfData } from '../pdfGeneration/generatePdfFromLatex';
 
 const QUEUE = 'pdf_queue';
 const REPLY_TO = 'amq.rabbitmq.reply-to';

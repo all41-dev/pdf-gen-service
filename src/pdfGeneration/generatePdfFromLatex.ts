@@ -2,7 +2,7 @@ import path from 'path';
 import { promisify } from 'util';
 import { exec } from 'child_process';
 import fs from 'fs-extra';
-import { generateTmpDir } from './utils';
+import { generateTmpDir } from '../utils';
 
 const execAsync = promisify(exec);
 

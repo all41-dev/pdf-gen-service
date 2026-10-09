@@ -1,4 +1,4 @@
-import { startServer } from './server';
+import { startServer } from './server/server';
 import { startReceivers } from './amqp/receive';
 import os from 'node:os';
 

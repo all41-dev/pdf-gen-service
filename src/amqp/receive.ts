@@ -1,6 +1,6 @@
 import amqp, { ConsumeMessage, Channel } from 'amqplib';
-import { generatePdfFromLatex } from '../generatePdfFromLatex';
-import { PdfData } from '../generatePdfFromLatex';
+import { generatePdfFromLatex } from '../pdfGeneration/generatePdfFromLatex';
+import { PdfData } from '../pdfGeneration/generatePdfFromLatex';
 const QUEUE_OPTIONS = {
   durable: true,
   arguments: { 'x-queue-type': 'quorum' },
