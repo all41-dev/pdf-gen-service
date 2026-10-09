@@ -6,6 +6,12 @@ import { generateTmpDir } from './utils';
 
 const execAsync = promisify(exec);
 
+export interface PdfData {
+  latexTemplate: string;
+  uuid: string;
+  images?: Image[];
+}
+
 type ImageSource = string | { url: string }; // base64 string, or a URL to download
 
 export interface Image {
@@ -26,7 +32,6 @@ export async function generatePdfFromLatex(
   const filepath = path.join(tmpDir, uuid);
 
   fs.writeFileSync(`${filepath}.tex`, latexTemplate);
-  console.log('filepath', filepath);
   const cmd = `xelatex -halt-on-error ${filepath}.tex`;
   const { stderr } = await execAsync(cmd, { cwd: tmpDir });
   if (stderr) {

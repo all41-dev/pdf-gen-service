@@ -2,13 +2,14 @@ import { type Express } from 'express';
 import express from 'express';
 import { generatePdfFromLatex } from './generatePdfFromLatex';
 import type { Image } from './generatePdfFromLatex';
-
+import { startPdfClient } from './amqp/send';
 export async function startServer() {
   const app: Express = express();
   app.use(express.json({ limit: '2mb' }));
   app.get('/health', (req, res) => {
     res.status(200).end();
   });
+  await startPdfClient();
   app.post('/pdf/:uuid', async (req, res) => {
     const { latexTemplate = '', images = [] } = req.body ?? {};
     const uuid = req.params.uuid;
