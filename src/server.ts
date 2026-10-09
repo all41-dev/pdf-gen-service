@@ -1,8 +1,7 @@
 import { type Express } from 'express';
 import express from 'express';
-import { generatePdfFromLatex } from './generatePdfFromLatex';
 import type { Image } from './generatePdfFromLatex';
-import { startPdfClient } from './amqp/send';
+import { requestPdf, startPdfClient } from './amqp/send';
 export async function startServer() {
   const app: Express = express();
   app.use(express.json({ limit: '2mb' }));
@@ -28,11 +27,11 @@ export async function startServer() {
       return;
     }
     try {
-      const pdf = await generatePdfFromLatex(
+      const pdf = await requestPdf({
         latexTemplate,
         uuid,
-        images as Image[],
-      );
+        images: images as Image[],
+      });
       res.type('application/pdf').send(pdf);
     } catch (error) {
       console.error('Error generating PDF:', error);
