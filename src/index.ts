@@ -4,6 +4,9 @@ import os from 'node:os';
 
 async function main() {
   const role = process.env.ROLE ?? 'all';
+  if (!['all', 'api', 'worker'].includes(role)) {
+    throw new Error(`Unknown ROLE "${role}" (expected all, api or worker)`);
+  }
   const concurrency =
     Number(process.env.WORKER_CONCURRENCY) || os.availableParallelism();
 
@@ -15,4 +18,7 @@ async function main() {
   }
 }
 
-main();
+main().catch((error) => {
+  console.error('Startup failed:', error);
+  process.exit(1);
+});
