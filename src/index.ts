@@ -14,7 +14,7 @@ async function main() {
     await startReceivers('pdf_queue', concurrency);
   }
   if (role === 'all' || role === 'api') {
-    startServer();
+    await startServer();
   }
 }
 
