@@ -18,9 +18,15 @@
     "dist/**/*"
   ],
   "scripts": {
-    "start": " node dist/index.js",
+    "dev": "tsx watch --env-file=.env src/index.ts",
     "build": "tsc",
-    "test": "npx mocha"
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test-only": "mocha",
+    "test": "npm run typecheck && npm run lint && npm run format:check && mocha"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -37,6 +43,7 @@
     "eslint": "^10.11.0",
     "mocha": "^12.0.3",
     "nyc": "^18.0.0",
+    "prettier": "^3.9.10",
     "sinon": "^22.1.0",
     "supertest": "^7.3.1",
     "ts-node": "^10.9.2",
