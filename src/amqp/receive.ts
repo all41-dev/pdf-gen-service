@@ -1,10 +1,7 @@
 import amqp, { ConsumeMessage, Channel } from 'amqplib';
 import { generatePdfFromLatex } from '../pdfGeneration/generatePdfFromLatex';
 import { PdfData } from '../pdfGeneration/generatePdfFromLatex';
-const QUEUE_OPTIONS = {
-  durable: true,
-  arguments: { 'x-queue-type': 'quorum' },
-};
+import { QUEUE_OPTIONS, RABBITMQ_URL } from './config';
 
 async function handleJob(
   channel: Channel,
@@ -46,7 +43,7 @@ async function handleJob(
   }
 }
 export async function startReceivers(queueName: string, count: number) {
-  const connection = await amqp.connect('amqp://localhost');
+  const connection = await amqp.connect(RABBITMQ_URL);
 
   for (let i = 1; i <= count; i++) {
     const channel = await connection.createChannel();

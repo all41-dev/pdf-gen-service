@@ -1,6 +1,7 @@
 import { startServer } from './server/server';
 import { startReceivers } from './amqp/receive';
 import os from 'node:os';
+import { PDF_QUEUE } from './amqp/config';
 
 async function main() {
   const role = process.env.ROLE ?? 'all';
@@ -11,7 +12,7 @@ async function main() {
     Number(process.env.WORKER_CONCURRENCY) || os.availableParallelism();
 
   if (role === 'all' || role === 'worker') {
-    await startReceivers('pdf_queue', concurrency);
+    await startReceivers(PDF_QUEUE, concurrency);
   }
   if (role === 'all' || role === 'api') {
     await startServer();
