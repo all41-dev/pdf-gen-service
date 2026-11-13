@@ -16,7 +16,7 @@ describe('error handling', function () {
 \invalidcommand
 \end{document}`;
   it('rejects LaTeX with an undefined command', async () => {
-    await expect(generatePdfFromLatex(latexTemplate, '0')).to.be.rejectedWith(
+    await expect(generatePdfFromLatex(latexTemplate)).to.be.rejectedWith(
       /Undefined control sequence/,
     );
   });
@@ -28,17 +28,16 @@ describe('generatePdfFromLatex with valid input', function () {
   const cases: Array<{
     name: string;
     file: string;
-    uuid: string;
     images: Image[];
   }> = [
-    { name: 'simple invoice', file: 'test1.tex', uuid: '232', images: [] },
+    { name: 'simple invoice', file: 'test1.tex', images: [] },
     {
       name: 'latex with images',
       file: 'test2.tex',
-      uuid: '111',
+
       images: [
         {
-          name: 'logo',
+          name: 'logo.png',
           source: {
             url: 'https://placehold.co/600x200/png?text=Test+Logo',
           },
@@ -46,10 +45,10 @@ describe('generatePdfFromLatex with valid input', function () {
       ],
     },
   ];
-  for (const { name, file, uuid, images } of cases) {
+  for (const { name, file, images } of cases) {
     it(`generates a PDF for ${name}`, async () => {
       const latex = await readFile(path.join(templates, file), 'utf-8');
-      const pdf = await generatePdfFromLatex(latex, uuid, images);
+      const pdf = await generatePdfFromLatex(latex, images);
 
       expect(pdf.subarray(0, 5).toString()).to.equal('%PDF-');
     });
