@@ -11,12 +11,9 @@ async function handleJob(
   const { correlationId, replyTo } = message.properties;
   try {
     const job = JSON.parse(message.content.toString()) as PdfData;
-    console.log(` [receiver ${receiverId}] job ${job.uuid}: generating`);
-    const pdf = await generatePdfFromLatex(
-      job.latexTemplate,
-      job.uuid,
-      job.images,
-    );
+
+    console.log(` [receiver ${receiverId}]: generating`);
+    const pdf = await generatePdfFromLatex(job.latex, job.images);
     if (replyTo) {
       channel.sendToQueue(replyTo, pdf, {
         correlationId,
@@ -24,7 +21,7 @@ async function handleJob(
         headers: { status: 200 },
       });
     }
-    console.log(` [receiver ${receiverId}] job ${job.uuid}: done`);
+    console.log(` [receiver ${receiverId}]: done`);
   } catch (error) {
     console.error(` [receiver ${receiverId}] job failed:`, error);
     if (replyTo) {
