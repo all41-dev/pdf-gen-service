@@ -1,6 +1,7 @@
 # ---- Build stage: compile TypeScript ----
 FROM node:22-bookworm-slim AS build
 WORKDIR /app
+
  
 # Install all dependencies (including dev) first, so this layer is cached
 COPY package*.json ./
@@ -18,10 +19,12 @@ FROM node:22-bookworm-slim
 RUN apt-get update && apt-get install -y --no-install-recommends \
       texlive-xetex \
       texlive-fonts-recommended \
+      fonts-liberation \
     && rm -rf /var/lib/apt/lists/*
  
 WORKDIR /app
 ENV NODE_ENV=production
+ENV openin_any=p
  
 # Runtime dependencies only
 COPY package*.json ./
@@ -33,4 +36,9 @@ COPY --from=build /app/dist ./dist
 # Run as an unprivileged user
 USER node
  
+EXPOSE 3100
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s \
+  CMD node -e "fetch('http://localhost:3100/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"
+
 CMD ["node", "/app/dist/index.js"]

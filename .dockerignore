@@ -1,11 +1,6 @@
 node_modules
 dist
-out
-.git
-.vscode
-coverage
+.env*
+!.env.example
 *.pdf
-*.aux
-*.log
-.env
- 
+.git
